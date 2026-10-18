@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday ESA Chowdhury ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* সিরিয়াস ও ইমোশনাল কার্ডের জন্য স্পেশাল ডিজাইন */
+        .serious-card {
+            border: 1px solid rgba(255, 117, 140, 0.4);
+            background: rgba(20, 10, 30, 0.6);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 117, 140, 0.15);
+        }
+        .serious-msg {
+            background: rgba(15, 5, 25, 0.7);
+            border-left: 4px solid #ff758c;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+            text-align: left;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #fce4ec;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" preload="auto" loop>
+        <source src="amar_moner_jochona.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Background Particles -->
+    <div class="background-effects" id="bgEffects"></div>
+
+    <!-- MAIN CARD -->
+    <div class="card-container serious-card">
+        
+        <!-- SLIDE 1: Main Greeting -->
+        <div class="slide active" id="slide1">
+            <p class="greeting">✨ Happy Birthday ✨</p>
+            <h1>ESA Chowdhury</h1>
+            <span class="name-highlight">17th Birthday Celebration 🎉</span>
+
+            <div class="message-box">
+                শুভ জন্মদিন দোস্ত! আজকের এই বিশেষ দিনটা তোর জীবনটা অনাবিল আনন্দে ভরে তুলুক। তোর মিষ্টি হাসি আর দারুণ ব্যক্তিত্ব সবসময় এভাবেই সবার মন জয় করে নিক! 🎂💖
+            </div>
+            <div class="nav-btns">
+                <button class="action-btn" onclick="nextSlide(2)">পরের পেজ ➔</button>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Special Compliment -->
+        <div class="slide" id="slide2">
+            <p class="greeting">✨ Special Thought ✨</p>
+            <h1>Stay Blessed</h1>
+            <span class="name-highlight">সবসময় এমন হাসিখুশি থেকো ✨</span>
+            <div class="message-box">
+                “তুই যেন সারা জীবন ঠিক এভাবেই হাসিখুশি থাকতে পারিস এবং তোর জীবনের প্রতিটি মুহূর্ত আলোয় ভরে ওঠে! সৃষ্টিকর্তা তোকে সবসময় সুস্থ রাখুন এবং তোর সব ভালো ইচ্ছা পূরণ করুন।” 💫
+            </div>
+            <div class="nav-btns">
+                <button class="action-btn prev-btn" onclick="nextSlide(1)">⬅️ পিছে</button>
+                <button class="action-btn" onclick="nextSlide(3)">একটি কথা ➔</button>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Serious & Beautiful Gift Confession -->
+        <div class="slide" id="slide3">
+            <p class="greeting">💌 An Honest Confession</p>
+            <h1>একটি ছোট সত্যি কথা</h1>
+            <span class="name-highlight">গিফট নিয়ে সিরিয়াস কথা... 🥀</span>
+            
+            <div class="serious-msg">
+                "ইশা, সত্যি বলতে কি... তোর এই ১৭তম জন্মদিনে তোকে খুব সুন্দর একটা গিফট দেওয়ার অনেক ইচ্ছা ছিল। কিন্তু নানা ব্যস্ততা আর নানা কারণে ঠিক সময়ে শহরে যাওয়া হয়ে ওঠেনি, আর কি কিনব সেটাও ঠিকমতো গুছিয়ে উঠতে পারিনি। সত্যি বলতে, গিফটটা এখনো কেনা হয়নি—বিষয়টা নিয়ে আমার নিজেরও খুব খারাপ লাগছে। 
+                <br><br>
+                তবে বিশ্বাস কর, তোর প্রতি আমার শ্রদ্ধা, শুভকামনা আর বন্ধুত্বের জায়গাটা কোনো উপহারের চেয়ে অনেক বেশি বড়। রাগ করিস না প্লিজ! তোর মনের মতো পারফেক্ট একটা গিফট আমি খুব শীঘ্রই নিজ দায়িত্বে তোর হাতে পৌঁছে দেবো, এটা আমার কথা রইল। ✨"
+            </div>
+
+            <div class="sender-tag">
+                With Sincere Regard & Best Wishes, <br><span style="color: #ffd700; font-size: 1.1rem; font-family: 'Great Vibes', cursive;">Anas</span>
+            </div>
+
+            <div class="nav-btns" style="margin-top: 20px;">
+                <button class="action-btn prev-btn" onclick="nextSlide(2)">⬅️ পিছে</button>
+                <button class="action-btn" onclick="goToCelebration()">চল কেক কাটি! 🎂➔</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Floating Music Status Bar -->
+    <div class="music-player-bar" id="musicBar">
+        <button class="music-toggle" id="playPauseBtn" onclick="togglePlayMusic()">⏸</button>
+        <span>🎵 বাজছে: আমার মনে জোছনা আমি কাউকে দিবে না</span>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const music = document.getElementById('bgMusic');
+            const musicBar = document.getElementById('musicBar');
+            if (localStorage.getItem('playMusic') === 'true') {
+                music.play().catch(e => console.log(e));
+                musicBar.style.display = 'flex';
+            }
+        };
+
+        const bgEffects = document.getElementById('bgEffects');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 5 + 3 + 'px';
+            particle.style.width = size;
+            particle.style.height = size;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            particle.style.animationDelay = (Math.random() * 5) + 's';
+            bgEffects.appendChild(particle);
+        }
+
+        function nextSlide(slideNumber) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active'));
+            document.getElementById('slide' + slideNumber).classList.add('active');
+        }
+
+        function goToCelebration() {
+            window.location.href = "celebration.html";
+        }
+
+        function togglePlayMusic() {
+            const music = document.getElementById('bgMusic');
+            const btn = document.getElementById('playPauseBtn');
+            if (music.paused) {
+                music.play();
+                btn.innerHTML = "⏸";
+            } else {
+                music.pause();
+                btn.innerHTML = "▶";
+            }
+        }
+    </script>
+</body>
+</html>

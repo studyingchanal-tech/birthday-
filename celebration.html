@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday ESA Chowdhury ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .party-container {
+            animation: pulseGlow 2s infinite alternate;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); }
+            100% { box-shadow: 0 0 40px rgba(255, 105, 180, 0.5); }
+        }
+        .person-name {
+            font-size: 1.5rem !important;
+            color: #ffd700;
+            font-weight: 700;
+            margin: 5px 0;
+        }
+        .dialogue-text {
+            font-size: 1.05rem;
+            color: #ffecd2;
+            line-height: 1.6;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        .reply-box {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .reply-btn {
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .reply-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #ffd700, #ff9900);
+            color: #1a0b2e;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" preload="auto" loop>
+        <source src="amar_moner_jochona.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="background-effects" id="bgEffects"></div>
+
+    <div class="card-container party-container" style="display: block;">
+        
+        <p class="greeting" id="topHeader">🎂 Grand Cake Party</p>
+        <h1 id="mainTitle">সবার সাথে কেক কাটার উৎসব!</h1>
+        <span class="name-highlight" id="subHighlight">আরামসে দেখে নাও কে কে কেক খাচ্ছে... 🎉</span>
+
+        <!-- Live Stage / Dialogue Box -->
+        <div class="target-box" id="targetBox">
+            <div id="avatarIcon" class="avatar-icon">🎊</div>
+            <div id="currentPersonName" class="person-name">পার্টি শুরু করতে নিচের বাটনে চাপো!</div>
+            <div id="eatingStatus" class="eating-status"></div>
+            <div id="dialogueContainer"></div>
+        </div>
+
+        <!-- Dynamic Reply Options for ESA -->
+        <div id="replyOptions" class="reply-box"></div>
+
+        <div style="margin: 15px 0;" id="actionArea">
+            <button class="action-btn" id="startPartyBtn" onclick="startAutoParty()" style="width: 100%; font-size: 1.1rem; padding: 14px;">
+                🎉 কেক খাওয়ানো শুরু করো 🔪
+            </button>
+        </div>
+
+        <div class="sender-tag">
+            With Best Wishes, <br><span style="color: #ffd700; font-size: 1.1rem; font-family: 'Great Vibes', cursive;">Anas</span>
+        </div>
+
+        <div class="nav-btns" style="margin-top: 15px;">
+            <button class="action-btn prev-btn" onclick="goBackToStory()">⬅️ পিছে যাও</button>
+            <button class="action-btn" onclick="goToStart()">শুরুতে ফিরে যাও ↺</button>
+        </div>
+
+    </div>
+
+    <div class="music-player-bar" id="musicBar">
+        <button class="music-toggle" id="playPauseBtn" onclick="togglePlayMusic()">⏸</button>
+        <span>🎵 বাজছে: আমার মনে জোছনা আমি কাউকে দিবে না</span>
+    </div>
+
+    <script>
+        // কেক খাওয়ার তালিকা
+        const guests = [
+            { name: "ESA Chowdhury (বান্ধবী)", type: "girl", msg: "সবচেয়ে সুন্দর এবং মিষ্টি করে কেক খাচ্ছে! 🎂💖" },
+            { name: "আম্মু", type: "girl", msg: "স্নেহভরে নিজ হাতে কেক খাইয়ে দিচ্ছেন! 🥰" },
+            { name: "আব্বু", type: "old", msg: "খুশি মনে কেক খেয়ে মুচকি হাসছেন! 😊" },
+            { name: "ভাই", type: "boy", msg: "কেক দেখে সাথে সাথেই এক কামড়ে শেষ! 😋" },
+            { name: "বোন", type: "girl", msg: "মজাদার কেক পেয়ে দারুণ খুশি! ✨" },
+            { name: "দাদা", type: "old", msg: "দাদুকে নিয়ে সবাই মিলে জমজমাট আড্ডা! 🥳" },
+            { name: "দাদী", type: "old", msg: "আশীর্বাদ করে কেক মুখে দিচ্ছেন! 💖" },
+            { name: "নানা", type: "old", msg: "নাতি-নাতনিদের সাথে কেক উপভোগ করছেন! 🍰" },
+            { name: "নানি", type: "old", msg: "খুব আনন্দ নিয়ে কেক খাচ্ছেন! 🥰" },
+            { name: "লাকি (বেস্ট ফ্রেন্ড)", type: "girl", msg: "বেস্ট ফ্রেন্ডের সাথে দারুণ এনজয় করছে কেক পার্টি! 🎉" },
+            { name: "নূপুর (বেস্ট ফ্রেন্ড)", type: "girl", msg: "মিষ্টি হাসিতে বেস্ট ফ্রেন্ডকে কেক খাইয়ে দিচ্ছে! 🌸" },
+            { name: "সামিয়া (চাচাতো বোন)", type: "girl", msg: "চাচাতো বোন সামিয়া খুব আনন্দে কেক খাচ্ছে! 💖" },
+            { name: "নোভা", type: "girl", msg: "কেকের স্বাদে মুগ্ধ! 😋" },
+            { name: "নোহা", type: "girl", msg: "খুশিতে একদম গদগদ! ✨" },
+            { name: "আওয়াল", type: "boy", msg: "জমত কেক পার্টি চলছে! 🥳" },
+            { name: "আনাছ (Anas)", type: "boy", msg: "সবার সাথে নিজে কেক কেটে খাইয়ে দিচ্ছে! 😎🎂" },
+            { name: "সিফাত", type: "boy", msg: "দারুণ এনজয় করছে মুহূর্তটি! 🚀" },
+            { name: "সরোয়ার স্যার", type: "old", msg: "উপভোগ করছেন জন্মদিনের কেক! 🌟" },
+            { name: "গরু স্যার", type: "old", msg: "দারুণ ছন্দে কেক খাচ্ছেন! 🎈" },
+            { name: "ইসলাম স্যার", type: "old", msg: "সবাইকে শুভেচ্ছা জানিয়ে কেক খেলেন! 👏" },
+            { name: "হেডমাস্টার", type: "old", msg: "শুভকামনা জানিয়ে কেক গ্রহণ করলেন! 🎓" },
+            { name: "ফাতেমা মেডাম", type: "girl", msg: "স্নেহের সাথে কেক উপভোগ করছেন! 💐" },
+            { name: "লাভলি মেডাম", type: "girl", msg: "বেশ সুন্দর পরিবেশে কেক খেলেন! 🌺" },
+            { name: "নুজরল", type: "boy", msg: "বন্ধুর সাথে কেক পার্টিতে জমিয়ে দিল! 🎊" }
+        ];
+
+        // কেক খাওয়ার পর স্পেশাল কথা ও উত্তরের পর্ব (লাকি, নূপুর, সামিয়া, আম্মু-আব্বু, দাদা-দাদী ও আনাছ)
+        const conversations = [
+            {
+                name: "লাকি (বেস্ট ফ্রেন্ড)",
+                type: "girl",
+                dialogue: "Happy Birthday ESA! তোর আজকের দিনটা অনেক অনেক ভালো কাটুক দোস্ত! পার্টি কেমন হচ্ছে বল? 🎉",
+                options: [
+                    { text: "Thanks so much, Lucky! খুবই জোস হচ্ছে! 💖", response: "লাকি হেসে বলল: 'আরে দোস্ত, আরও মজা হবে সামনে!' 🥰" },
+                    { text: "No thanks, বেশি পাম দিস না! 😂", response: "লাকি চোখ টিপে বলল: 'আচ্ছা ঠিক আছে, আজ তোকে ছাড় দিলাম!' 😜" }
+                ]
+            },
+            {
+                name: "নূপুর (বেস্ট ফ্রেন্ড)",
+                type: "girl",
+                dialogue: "শুভ জন্মদিন দোস্ত! ১৭ তে পা দিলি আজ, আমাদের ফ্রেন্ডশিপটা এভাবেই চিরকাল থাকুক! কেক কিন্তু জোস হইছে! 🎂✨",
+                options: [
+                    { text: "Thanks a lot, নূপুর! তুই আমার বেস্ট ফ্রেন্ড সেরা! 💕", response: "নূপুর মুচকি হেসে জড়িয়ে ধরে বলল: 'অবশ্যই দোস্ত!' 🤗" },
+                    { text: "No thanks, কেক তো আমি একা খাবো সব! 🤭", response: "নূপুর চোখ বড় বড় করে বলল: 'তাই নাকি? দেখি কে কেক খায়!' 😂" }
+                ]
+            },
+            {
+                name: "সামিয়া (চাচাতো বোন)",
+                type: "girl",
+                dialogue: "হ্যাপি বার্থডে আপু! চাচাতো বোন হিসেবে তোকে অনেক ভালোবাসি। আজকের দিনে কিন্তু আমাকে স্পেশাল ট্রিট দিতে হবে! 🍫✨",
+                options: [
+                    { text: "Thanks রে সামিয়া! তোকে আজ ডাবল ট্রিট দেওয়া হবে, প্যাকআপ! 🥳", response: "সামিয়া খুশিতে লাফিয়ে উঠল: 'ইয়ে! তাহলে আজ পিৎজা ও চকলেট কনফার্ম!' 🍕" },
+                    { text: "No thanks, কোনো ট্রিট পাবি না যা! 😜", response: "সামিয়া মুখ ফুলিয়ে বলল: 'তাহলে আমি সব কেক লুকিয়ে ফেলব!' 😂" }
+                ]
+            },
+            {
+                name: "আম্মু 💖",
+                type: "girl",
+                dialogue: "শুভ জন্মদিন আমার কলিজার টুকরা মা আমার! আল্লাহ তোকে সবসময় নেক হায়াত দান করুন, মানুষের মতো মানুষ হও। আম্মুর জন্য একটু দোয়া করিস। 🥰",
+                options: [
+                    { text: "অনেক ধন্যবাদ আম্মু, তোমার দোয়ায় থেকো সবসময়! 🌸", response: "আম্মু মাথায় হাত বুলিয়ে কপালে আদর করে দিলেন। ✨" },
+                    { text: "আম্মু তুমি সেরা! আমার জন্য স্পেশাল বিরিয়ানি বানাইও কিন্তু! 😋", response: "আম্মু হেসে বললেন: 'আচ্ছা বাবা, তোর পছন্দের বিরিয়ানিই রান্না হবে আজ!' 🍲" }
+                ]
+            },
+            {
+                name: "আব্বু 👔",
+                type: "old",
+                dialogue: "শুভ জন্মদিন আমার রাজকন্যা! সবসময় নিজের খেয়াল রাখবি, পড়ালেখা ঠিকমতো করবি। আব্বুর সবসময় তোর পাশে আছি। 🌟",
+                options: [
+                    { text: "অনেক ধন্যবাদ আব্বু, তোমার আশীর্বাদই আমার সবচেয়ে বড় শক্তি! 💫", response: "আব্বু মুচকি হেসে পিঠ চাপড়ে দিলেন। 💙" },
+                    { text: "থ্যাংকু আব্বু! তবে আমার গিফট কিন্তু বাকি আছে! 😉", response: "আব্বু হেসে বললেন: 'আরে অবশ্যই, তোর পছন্দমতো গিফট পেয়ে যাবি!' 🎁" }
+                ]
+            },
+            {
+                name: "দাদা 👴",
+                type: "old",
+                dialogue: "দাদুভাই আমার আজ ১৭ বছরে পা দিল! আল্লাহর রহমতে অনেক বড় হও, সবসময় হাসিখুশি থেকো দাদু। 🌺",
+                options: [
+                    { text: "অনেক ধন্যবাদ দাদাভাই! তোমার মতো সুস্থ ও দীর্ঘজীবী হতে চাই। 💖", response: "দাদা মিষ্টি হেসে মাথায় হাত বুলিয়ে দোয়া করলেন। 🥰" },
+                    { text: "থ্যাংকু দাদা! আজ তোমার সাথে অনেক গল্প করব কিন্তু! ✨", response: "দাদা খুশি হয়ে বললেন: 'অবশ্যই দাদুভাই, সারাদিন গল্প হবে!' ☕" }
+                ]
+            },
+            {
+                name: "দাদী 👵",
+                type: "old",
+                dialogue: "শুভ জন্মদিন নাতনি আমার! তোকে নজর লাগুক না কারো, সবসময় সুখে থেকো, ভালো থেকো মা আমার। 🧿💖",
+                options: [
+                    { text: "অনেক ধন্যবাদ দাদী! তোমার দোয়া যেন সবসময় আমার সাথে থাকে। 🥰", response: "দাদী স্নেহের সাথে জড়িয়ে ধরে কপালে চুমু খেলেন। 🌸" },
+                    { text: "থ্যাংকু দাদী! তোমার হাতের সেই সুস্বাদু পিঠা কিন্তু চাই আজ! 🥮", response: "দাদী গাল টিপে বললেন: 'আচ্ছা মা, এখনই বানিয়ে দিচ্ছি!' 💛" }
+                ]
+            },
+            {
+                name: "আনাছ (Anas) 😎",
+                type: "boy",
+                dialogue: "কিরে ESA? ১৭ বছরের বুড়ি হয়ে গেলি তো আজ! কেক তো সবাই খেল, এখন বল এই ওয়েবসাইট আর সারপ্রাইজটা কেমন লাগল তোর? 😌🎂",
+                options: [
+                    { text: "থ্যাংকু সো মাচ আনাছ! সারপ্রাইজটা জাস্ট অসাধারণ হয়েছে! 🥳✨", response: "আনাছ মুচকি হেসে বলল: 'বললাম না বস লেভেলের সারপ্রাইজ দেবো! 😎'" },
+                    { text: "থ্যাংকু... তবে গিফট যে দিস নাই, ওইটার হিসাব পরে নেব! 😒", response: "আনাছ আমতা আমতা করে বলল: 'আরে ওটা তো সিক্রেট সারপ্রাইজ ছিল, পেয়ে যাবি জলদিই! 🤫'" }
+                ]
+            }
+        ];
+
+        let currentIndex = 0;
+        let partyInterval = null;
+        let stage = 'cake'; // 'cake' প্রথমে, পরে 'dialogue'
+
+        window.onload = function() {
+            const music = document.getElementById('bgMusic');
+            const musicBar = document.getElementById('musicBar');
+            if (localStorage.getItem('playMusic') === 'true') {
+                music.play().catch(e => console.log(e));
+                musicBar.style.display = 'flex';
+            }
+        };
+
+        const bgEffects = document.getElementById('bgEffects');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 5 + 3 + 'px';
+            particle.style.width = size;
+            particle.style.height = size;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            particle.style.animationDelay = (Math.random() * 5) + 's';
+            bgEffects.appendChild(particle);
+        }
+
+        function startAutoParty() {
+            document.getElementById('startPartyBtn').style.display = 'none';
+            currentIndex = 0;
+            stage = 'cake';
+            runPartyLoop();
+            partyInterval = setInterval(runPartyLoop, 3800);
+        }
+
+        function runPartyLoop() {
+            if (stage === 'cake') {
+                if (currentIndex < guests.length) {
+                    const guest = guests[currentIndex];
+                    let emoji = "👧 🍰";
+                    if (guest.type === "boy") emoji = "👦 🍰";
+                    if (guest.type === "old") emoji = "👴 🍰";
+
+                    document.getElementById('avatarIcon').innerHTML = `<span style="display:inline-block; animation: chewAnim 0.6s infinite alternate;">${emoji}</span>`;
+                    document.getElementById('currentPersonName').innerText = guest.name;
+                    document.getElementById('eatingStatus').innerText = guest.msg;
+                    document.getElementById('dialogueContainer').innerHTML = "";
+                    document.getElementById('subHighlight').innerText = `✨ কেক খাচ্ছেন: (${currentIndex + 1} / ${guests.length}) ✨`;
+
+                    currentIndex++;
+                } else {
+                    // কেক খাওয়া শেষ, এখন ডায়লগ বা কথা বলার পর্বে চলে যাব
+                    clearInterval(partyInterval);
+                    stage = 'dialogue';
+                    currentIndex = 0;
+                    document.getElementById('topHeader').innerText = "💬 Special Conversation";
+                    document.getElementById('mainTitle').innerText = "সবার মিষ্টি কথা ও শুভেচ্ছা!";
+                    document.getElementById('subHighlight').innerText = "এবার একে একে সবাই কথা বলবে এবং তুমি উত্তর দেবে 👇";
+                    startDialoguePhase();
+                }
+            }
+        }
+
+        function startDialoguePhase() {
+            if (currentIndex < conversations.length) {
+                const item = conversations[currentIndex];
+                let emoji = "👧";
+                if (item.type === "boy") emoji = "👦";
+                if (item.type === "old") emoji = "👴";
+
+                document.getElementById('avatarIcon').innerText = emoji;
+                document.getElementById('currentPersonName').innerText = item.name;
+                document.getElementById('eatingStatus').innerText = "";
+                document.getElementById('dialogueContainer').innerHTML = `<div class="dialogue-text">"${item.dialogue}"</div>`;
+
+                // অপশন বাটনগুলো তৈরি করা
+                let replyHtml = "";
+                item.options.forEach((opt, idx) => {
+                    replyHtml += `<button class="reply-btn" onclick="selectReply(${idx})">${opt.text}</button>`;
+                });
+                document.getElementById('replyOptions').innerHTML = replyHtml;
+            } else {
+                // সব কথা বলা শেষ
+                document.getElementById('avatarIcon').innerText = "💖🥳🎂";
+                document.getElementById('currentPersonName').innerText = "আমাদের অনুষ্ঠান এতটুকুই! ✨";
+                document.getElementById('dialogueContainer').innerHTML = `<div class="dialogue-text">"সবাই মিলে তোর ১৭তম জন্মদিনটা অনেক সুন্দরভাবে সেলিব্রেট করল। সারাজীবন এভাবেই আনন্দে থেকো ESA Chowdhury!" 💫</div>`;
+                document.getElementById('replyOptions').innerHTML = `<button class="action-btn" onclick="goToStart()" style="padding: 10px 20px;">সবাইকে অনেক ধন্যবাদ! ↺</button>`;
+            }
+        }
+
+        function selectReply(optionIndex) {
+            const item = conversations[currentIndex];
+            const chosenOption = item.options[optionIndex];
+
+            // উত্তরের ফল দেখানো
+            document.getElementById('dialogueContainer').innerHTML = `
+                <div class="dialogue-text" style="color: #ffd700;">তুমি বললে: "${chosenOption.text}"</div>
+                <div class="dialogue-text" style="color: #ff9a9e; margin-top: 5px;">${chosenOption.response}</div>
+            `;
+            document.getElementById('replyOptions').innerHTML = `<button class="action-btn" onclick="nextDialogue()" style="padding: 8px 20px; font-size: 0.95rem;">পরের জনের কথা শুনো ➔</button>`;
+        }
+
+        function nextDialogue() {
+            currentIndex++;
+            startDialoguePhase();
+        }
+
+        function goBackToStory() {
+            clearInterval(partyInterval);
+            window.location.href = "story.html";
+        }
+
+        function goToStart() {
+            clearInterval(partyInterval);
+            window.location.href = "index.html";
+        }
+
+        function togglePlayMusic() {
+            const music = document.getElementById('bgMusic');
+            const btn = document.getElementById('playPauseBtn');
+            if (music.paused) {
+                music.play();
+                btn.innerHTML = "⏸";
+            } else {
+                music.pause();
+                btn.innerHTML = "▶";
+            }
+        }
+    </script>
+</body>
+</html>

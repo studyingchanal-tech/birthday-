@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday ESA Chowdhury ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <audio id="bgMusic" preload="auto" loop>
+        <source src="amar_moner_jochona.mp3" type="audio/mpeg">
+        আপনার ব্রাউজার অডিও ট্যাগ সমর্থন করে না।
+    </audio>
+
+    <div class="intro-overlay" id="introOverlay">
+        <div class="intro-card">
+            <h2>Special Surprise</h2>
+            <p>একটা স্পেশাল মিউজিক্যাল সারপ্রাইজ দেখার জন্য তৈরি তো?</p>
+            <div class="song-name-tag">🎵 গান: "আমার মনে জোছনা আমি কাউকে দিবে না"</div>
+            <div class="choice-btns">
+                <button class="choice-btn btn-yes" onclick="goToStory(true)">হ্যাঁ (Play Song) ✨</button>
+                <button class="choice-btn btn-no" onclick="goToStory(false)">না (Mute)</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goToStory(playMusic) {
+            const music = document.getElementById('bgMusic');
+            if (playMusic) {
+                music.play().catch(e => console.log(e));
+                localStorage.setItem('playMusic', 'true');
+            } else {
+                localStorage.setItem('playMusic', 'false');
+            }
+            window.location.href = "story.html";
+        }
+    </script>
+</body>
+</html>
